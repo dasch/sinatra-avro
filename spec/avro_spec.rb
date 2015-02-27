@@ -25,6 +25,18 @@ describe Sinatra::Avro do
     expect(decoded_data).to eq("name" => "Jane", "age" => 42)
   end
 
+  it "allows loading the schema from disk automatically" do
+    mock_app do
+      set :avro_schema_dir, "spec/"
+      get '/' do
+        data = { "name" => "Jane", "age" => 42 }
+        avro data, schema_name: "person"
+      end
+    end
+
+    expect(decoded_data).to eq("name" => "Jane", "age" => 42)
+  end
+
   it "sets the Content-Type header to avro/binary" do
     mock_app do
       get '/' do

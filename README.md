@@ -1,6 +1,6 @@
 # Sinatra::Avro
 
-TODO: Write a gem description
+A Sinatra plugin that allows encoding requests and responses using Apache Avro.
 
 ## Installation
 
@@ -20,7 +20,42 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In your Sinatra app:
+
+```ruby
+require 'sinatra/avro'
+
+get '/' do
+  schema = <<-SCHEMA
+    {
+      "name": "person",
+      "type": "record",
+      "fields": [
+        { "name": "name", "type": "string" },
+        { "name": "age", "type": "long" }
+      ]
+    }
+  SCHEMA
+
+  avro({ "name" => "Jane", "age" => 42 }, schema: schema)
+end
+```
+
+Alternatively, store your schemas in `schemas/<schema-name>.avsc` and refer to them by name:
+
+```ruby
+get '/' do
+  # Will use the schema defined by `./schemas/person.avsc`.
+  avro({ "name" => "Jane", "age" => 42 }, schema_name: "person")
+end
+```
+
+You can configure which directory to look up schema files from using
+
+```ruby
+set :avro_schema_dir, "some/other/dir"
+```
+
 
 ## Contributing
 

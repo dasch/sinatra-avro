@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Sinatra::Avro::VERSION
   spec.authors       = ["Daniel Schierbeck"]
   spec.email         = ["dasch@zendesk.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{A Sinatra plugin that allows encoding requests and responses using Apache Avro}
+  spec.homepage      = "https://github.com/dasch/sinatra-avro"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

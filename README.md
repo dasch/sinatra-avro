@@ -20,28 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
-In your Sinatra app:
+Add an Avro schema to e.g. `schemas/person.avsc`:
 
-```ruby
-require 'sinatra/avro'
-
-get '/' do
-  schema = <<-SCHEMA
-    {
-      "name": "person",
-      "type": "record",
-      "fields": [
-        { "name": "name", "type": "string" },
-        { "name": "age", "type": "long" }
-      ]
-    }
-  SCHEMA
-
-  avro({ "name" => "Jane", "age" => 42 }, schema: schema)
-end
+```json
+{
+  "name": "person",
+  "type": "record",
+  "fields": [
+    { "name": "name", "type": "string" },
+    { "name": "age", "type": "long" }
+  ]
+}
 ```
 
-Alternatively, store your schemas in `schemas/<schema-name>.avsc` and refer to them by name:
+You can now respond with Avro encoded data:
 
 ```ruby
 get '/' do

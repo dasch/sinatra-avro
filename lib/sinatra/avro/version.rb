@@ -1,5 +1,5 @@
 module Sinatra
   module Avro
-    VERSION = "0.0.1"
+    VERSION = "0.0.2"
   end
 end

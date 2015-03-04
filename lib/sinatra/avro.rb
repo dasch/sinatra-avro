@@ -1,40 +1,24 @@
 require 'sinatra/avro/version'
 require 'sinatra/base'
-require 'avro'
+require 'avro_turf'
 
 module Sinatra
   module Avro
     MIME_TYPE = "avro/binary".freeze
 
     def avro(object, options = {})
-      schema_json = fetch_avro_schema(options)
-
       # Set the Content-Type response header.
       content_type MIME_TYPE
 
-      avro_encode(object, schema_json)
+      avro_encode(object, options)
     end
 
-    def avro_encode(object, schema_json)
-      schema = ::Avro::Schema.parse(schema_json)
-      writer = ::Avro::IO::DatumWriter.new(schema)
-      io = StringIO.new
+    private
 
-      dw = ::Avro::DataFile::Writer.new(io, writer, schema)
-      dw << object.to_h
-      dw.close
-
-      io.string
-    end
-
-    def fetch_avro_schema(options = {})
-      options[:schema] || load_avro_schema(options.fetch(:schema_name))
-    end
-
-    def load_avro_schema(schema_name)
-      schema_path = File.join(settings.avro_schema_dir, schema_name + ".avsc")
-
-      File.read(schema_path)
+    def avro_encode(object, options)
+      schema_name = options.fetch(:schema_name) { raise "Please specify a schema name" }
+      @avro ||= AvroTurf.new(schemas_path: settings.avro_schema_dir)
+      @avro.encode(object, schema_name: schema_name)
     end
   end
 

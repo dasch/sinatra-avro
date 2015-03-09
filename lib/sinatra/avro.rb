@@ -17,11 +17,12 @@ module Sinatra
 
     def avro_encode(object, options)
       schema_name = options.fetch(:schema_name) { raise "Please specify a schema name" }
-      @avro ||= AvroTurf.new(schemas_path: settings.avro_schema_dir)
+      @avro ||= AvroTurf.new(schemas_path: settings.avro_schema_dir, namespace: settings.avro_namespace)
       @avro.encode(object, schema_name: schema_name)
     end
   end
 
   Base.set :avro_schema_dir, "schemas"
+  Base.set :avro_namespace, nil
   Base.helpers Avro
 end

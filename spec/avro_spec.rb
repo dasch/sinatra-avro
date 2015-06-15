@@ -21,7 +21,7 @@ describe Sinatra::Avro do
 
   it "sets the Content-Type header to avro/binary" do
     response = get('/')
-    expect(response["Content-Type"]).to eq "avro/binary"
+    expect(response["Content-Type"]).to eq "avro/binary; schema=person"
   end
 
   def avro_decode(avro)
